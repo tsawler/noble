@@ -9,10 +9,10 @@
 
 # Noble
 
-A simple wrapper to make working with [Go](https://go.dev)'s implementation of
+Noble is a simple wrapper to make working with [Go](https://go.dev)'s implementation of
 [Argon2](https://en.wikipedia.org/wiki/Argon2) (specifically Argon2id) much easier. Argon2 is a modern ASIC-resistant
 and GPU-resistant secure key derivation function. It has better password cracking resistance (when configured correctly)
-than PBKDF2 , Bcrypt and Scrypt (for similar configuration parameters for CPU and RAM usage)
+than PBKDF2 , Bcrypt and Scrypt (for similar configuration parameters for CPU and RAM usage).
 
 Argon2 is a key derivation function that was selected as the winner of the 2015 Password Hashing Competition. It was
 designed by Alex Biryukov, Daniel Dinu, and Dmitry Khovratovich from the University of Luxembourg. There are three
@@ -53,4 +53,14 @@ func main() {
 	valid, err = n.ComparePasswordAndKey(password+"fish", hash)
 	fmt.Println("Second password/hash compare is", valid)
 }
+```
+
+The output of this program is:
+
+```
+(base) tcs@Grendel nobleapp % go run .
+hash for verysecret 
+         $argon2id$v=19$m=61440,t=1,p=4$XjQXPOyUmwUJAFPgNSMi+w$ZhBXt6gtrBnNyrFQ+i0ZlTbLS6WWrK8WKRmVQtXbY/Y
+First password/hash compare is true
+Second password/hash compare is false
 ```
