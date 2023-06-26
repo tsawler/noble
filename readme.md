@@ -1,7 +1,7 @@
 
 # Noble
 
-A simple wrapper to make working with Go's implementation of argon2 much simpler.
+A simple wrapper to make working with Go's implementation of Argon2 (specifically Argon2id) much easier.
 
 ## Example
 

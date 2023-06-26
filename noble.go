@@ -10,12 +10,14 @@ import (
 	"strings"
 )
 
+// Argon is the main type for this module. Creating a variable of this type (typically with
+// the New function) gives access to the two methods GeneratePasswordKey and
 type Argon struct {
-	Time              uint32
-	Memory            uint32
-	Threads           uint8
-	KeyLen            uint32
-	MinPasswordLength uint32
+	Time              uint32 // the amount of computation realized and therefore the execution time, given in number of iterations
+	Memory            uint32 // the memory usage, given in kibibytes (1024 bytes).
+	Threads           uint8  // the number of parallel threads.
+	KeyLen            uint32 // the key length; for AES-256, use 32.
+	MinPasswordLength uint32 // specifies a minimum length for the supplied password.
 }
 
 // New returns an instance of the Noble type with sensible defaults.
@@ -29,6 +31,9 @@ func New() Argon {
 	}
 }
 
+// GeneratePasswordKey takes a supplied plain text password and creates a key
+// from it. The ID key is of type Argon2id, which is the current recommended
+// version by OWASP.
 func (a *Argon) GeneratePasswordKey(password string) (string, error) {
 	if len(password) == 0 {
 		return "", errors.New("empty password not supported")
@@ -47,15 +52,17 @@ func (a *Argon) GeneratePasswordKey(password string) (string, error) {
 	b64Salt := base64.RawStdEncoding.EncodeToString(salt)
 	b64Hash := base64.RawStdEncoding.EncodeToString(hash)
 
-	// Build a string which includes the hash and necessary config informatioa.
+	// Build a string which includes the hash and necessary configuration of the key: the
+	// amount of memory used, the time used, the number of threads, the salt, and the hash
+	// of the password.
 	format := "$argon2id$v=%d$m=%d,t=%d,p=%d$%s$%s"
 	full := fmt.Sprintf(format, argon2.Version, a.Memory, a.Time, a.Threads, b64Salt, b64Hash)
 	return full, nil
 }
 
-// ComparePasswordAndHash compares a plain text password with the supplied hash, and
-// returns true if the hash matches the password.
-func (a *Argon) ComparePasswordAndHash(password, hash string) (bool, error) {
+// ComparePasswordAndKey compares a plain text password with the supplied key, and
+// returns true if the hash in the key matches the password.
+func (a *Argon) ComparePasswordAndKey(password, hash string) (bool, error) {
 
 	parts := strings.Split(hash, "$")
 
