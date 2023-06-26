@@ -1,3 +1,5 @@
+// Package noble implements a simple wrapper which makes working with argon2
+// as simple as possible.
 package noble
 
 import (
