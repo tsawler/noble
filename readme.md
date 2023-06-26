@@ -19,6 +19,14 @@ designed by Alex Biryukov, Daniel Dinu, and Dmitry Khovratovich from the Univers
 different versions of the algorithm, and according to OWASP, the Argon2id variant should be used, as it provides a
 balanced approach to resisting both side-channel and GPU-based attacks.
 
+## Installation
+
+Install it in the usual way:
+
+```
+go get -u github.com/tsawler/noble
+```
+
 ## Example
 
 ```go
