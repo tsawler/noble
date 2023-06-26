@@ -1,8 +1,15 @@
 package noble
 
 import (
+	"errors"
 	"testing"
 )
+
+type TestRandomSourceReader struct{}
+
+func (tr *TestRandomSourceReader) GenerateBytes(length int) ([]byte, error) {
+	return nil, errors.New("some error")
+}
 
 func TestArgon_ComparePasswordAndHash(t *testing.T) {
 	tests := []struct {
@@ -76,14 +83,22 @@ func TestArgon_ComparePasswordAndHash(t *testing.T) {
 func TestArgon_GeneratePasswordKey(t *testing.T) {
 
 	tests := []struct {
-		name     string
-		password string
-		wantErr  bool
+		name          string
+		password      string
+		wantErr       bool
+		useTestReader bool
 	}{
 		{
-			name:     "valid",
-			password: "verysecret",
-			wantErr:  false,
+			name:          "valid",
+			password:      "verysecret",
+			wantErr:       false,
+			useTestReader: false,
+		},
+		{
+			name:          "invalid reader",
+			password:      "verysecret",
+			wantErr:       true,
+			useTestReader: true,
 		},
 		{
 			name:     "empty password",
@@ -98,7 +113,20 @@ func TestArgon_GeneratePasswordKey(t *testing.T) {
 	}
 	for _, e := range tests {
 		t.Run(e.name, func(t *testing.T) {
-			a := New()
+			var a Argon
+
+			if e.useTestReader {
+				a = Argon{
+					Time:              1,
+					Memory:            60 * 1024,
+					Threads:           4,
+					KeyLen:            32,
+					MinPasswordLength: 6,
+					Reader:            &TestRandomSourceReader{},
+				}
+			} else {
+				a = New()
+			}
 
 			_, err := a.GeneratePasswordKey(e.password)
 			if (err != nil) != e.wantErr {
