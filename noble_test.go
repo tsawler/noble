@@ -61,12 +61,12 @@ func TestArgon_ComparePasswordAndHash(t *testing.T) {
 
 			got, err := a.ComparePasswordAndKey(e.password, e.hash)
 			if (err != nil) != e.wantErr {
-				t.Errorf("%s, ComparePasswordAndHash() error = %v, wantErr %v", e.name, err, e.wantErr)
+				t.Errorf("%s, ComparePasswordAndKey() error = %v, wantErr %v", e.name, err, e.wantErr)
 				return
 			}
 
 			if got != e.wantGot {
-				t.Errorf("%s, ComparePasswordAndHash() got = %v, wantGot %v", e.name, got, e.wantGot)
+				t.Errorf("%s, ComparePasswordAndKey() got = %v, wantGot %v", e.name, got, e.wantGot)
 				return
 			}
 		})
