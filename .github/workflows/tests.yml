@@ -41,4 +41,5 @@ jobs:
         run: go test -race -vet=off ./...
 
       - name: Update coverage report
+        skip-pkg-cache: true
         uses: ncruces/go-coverage-report@main
