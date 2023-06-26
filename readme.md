@@ -46,11 +46,11 @@ func main() {
 	fmt.Println("hash for", password, "\n\t", hash)
 
 	// Try comparing a valid password against this hash.
-	valid, err := n.ComparePasswordAndHash(password, hash)
+	valid, err := n.ComparePasswordAndKey(password, hash)
 	fmt.Println("First password/hash compare is", valid)
 
 	// Now compare with an invalid password.
-	valid, err = n.ComparePasswordAndHash(password+"fish", hash)
+	valid, err = n.ComparePasswordAndKey(password+"fish", hash)
 	fmt.Println("Second password/hash compare is", valid)
 }
 ```
