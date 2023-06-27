@@ -14,6 +14,10 @@ Noble is a simple wrapper to make working with [Go](https://go.dev)'s implementa
 and GPU-resistant secure key derivation function. It has better password cracking resistance (when configured correctly)
 than PBKDF2 , Bcrypt and Scrypt (for similar configuration parameters for CPU and RAM usage).
 
+You would use this package when saving password hashes to a database for user authentication. While Go's bcrypt
+and scrypt packages are battle tested and popular, they are more vulnerable to password cracking, particularly
+with the advent of powerful GPU chips on modern systems.
+
 Argon2 is a key derivation function that was selected as the winner of the 2015 Password Hashing Competition. It was
 designed by Alex Biryukov, Daniel Dinu, and Dmitry Khovratovich from the University of Luxembourg. There are three
 different versions of the algorithm, and according to OWASP, the Argon2id variant should be used, as it provides a
