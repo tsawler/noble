@@ -15,7 +15,7 @@ import (
 // Argon is the main type for this module. Creating a variable of this type (typically with
 // the New function) gives access to the two methods GeneratePasswordKey and ComparePasswordAndKey.
 type Argon struct {
-	Time              uint32 // the amount of computation realized and therefore the execution time, given in number of iterations
+	Time              uint32 // the execution time, given in number of iterations.
 	Memory            uint32 // the memory usage, given in kibibytes (1024 bytes).
 	Threads           uint8  // the number of parallel threads.
 	KeyLen            uint32 // the key length; for AES-256, use 32.
@@ -29,8 +29,8 @@ type Reader interface {
 	generateBytes(length int) ([]byte, error)
 }
 
-// RandomSourceReader is an empty type we use, so we can swap in a test
-// reader, to simulate the situation where we can't generate a salt
+// RandomSourceReader is an empty type so that we can swap in a test
+// reader to simulate the situation where we can't generate a salt
 // using crypto/rand.
 type RandomSourceReader struct{}
 
