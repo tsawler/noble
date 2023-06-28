@@ -20,7 +20,7 @@ type Argon struct {
 	Threads           uint8  // the number of parallel threads.
 	KeyLen            uint32 // the key length; for AES-256, use 32.
 	MinPasswordLength uint32 // specifies a minimum length for the supplied password.
-	Reader            Reader
+	Reader            Reader // a type that exists simply so we can swap readers for testing.
 }
 
 // Reader is an interface used for testing purposes. In order to satisfy
