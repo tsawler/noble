@@ -7,7 +7,7 @@ import (
 
 type TestRandomSourceReader struct{}
 
-func (tr *TestRandomSourceReader) GenerateBytes(length int) ([]byte, error) {
+func (tr *TestRandomSourceReader) generateBytes(length int) ([]byte, error) {
 	return nil, errors.New("some error")
 }
 

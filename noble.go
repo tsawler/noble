@@ -13,7 +13,7 @@ import (
 )
 
 // Argon is the main type for this module. Creating a variable of this type (typically with
-// the New function) gives access to the two methods GeneratePasswordKey and
+// the New function) gives access to the two methods GeneratePasswordKey and ComparePasswordAndKey.
 type Argon struct {
 	Time              uint32 // the amount of computation realized and therefore the execution time, given in number of iterations
 	Memory            uint32 // the memory usage, given in kibibytes (1024 bytes).
@@ -26,16 +26,16 @@ type Argon struct {
 // Reader is an interface used for testing purposes. In order to satisfy
 // this interface, a type must implement this function.
 type Reader interface {
-	GenerateBytes(length int) ([]byte, error)
+	generateBytes(length int) ([]byte, error)
 }
 
-// RandomSourceReader is an empty type we use so we can swap in a test
+// RandomSourceReader is an empty type we use, so we can swap in a test
 // reader, to simulate the situation where we can't generate a salt
 // using crypto/rand.
 type RandomSourceReader struct{}
 
 // GenerateBytes returns a salt for our hash.
-func (r *RandomSourceReader) GenerateBytes(length int) ([]byte, error) {
+func (r *RandomSourceReader) generateBytes(length int) ([]byte, error) {
 	bytes := make([]byte, length)
 	_, _ = rand.Read(bytes)
 	return bytes, nil
@@ -62,7 +62,7 @@ func (a *Argon) GeneratePasswordKey(password string) (string, error) {
 	}
 
 	// Generate a salt.
-	salt, err := a.Reader.GenerateBytes(16)
+	salt, err := a.Reader.generateBytes(16)
 	if err != nil {
 		return "", err
 	}
